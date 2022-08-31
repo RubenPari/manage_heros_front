@@ -1,16 +1,18 @@
 import React from "react";
 import axios from "axios";
-import Hero from "../models/Hero";
+import Hero from "./Hero";
+import HeroClass from "../models/Hero";
+import "../css/AllHeros.scss";
 
 async function getAllHeros() {
   return await axios.get("http://localhost:8000/heros/get_all");
 }
 
-class AllHeros extends React.Component<{}, { heros: Hero[] }> {
+class AllHeros extends React.Component<{}, { heros: HeroClass[] }> {
   constructor(props: any) {
     super(props);
     this.state = {
-      heros: Array<Hero>(),
+      heros: Array<HeroClass>(),
     };
   }
 
@@ -24,31 +26,22 @@ class AllHeros extends React.Component<{}, { heros: Hero[] }> {
         console.log(err);
       });
   }
-  // TODO: implement card component
+
   render() {
     return (
       <div>
         <h1>All Heros</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Url</th>
-              <th>Thumbnail</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.heros.map((hero) => (
-              <tr key={hero.id}>
-                <td>{hero.name}</td>
-                <td>{hero.description}</td>
-                <td>{hero.url}</td>
-                <td>{hero.thumbnail}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="card-container">
+          {this.state.heros.map((hero) => (
+            <Hero
+              id={hero.id}
+              name={hero.name}
+              description={hero.description}
+              url={hero.url}
+              thumbnail={hero.thumbnail}
+            />
+          ))}
+        </div>
       </div>
     );
   }
