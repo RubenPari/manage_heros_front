@@ -2,27 +2,27 @@ import React from "react";
 import axios from "axios";
 import Hero from "./Hero";
 import HeroClass from "../models/Hero";
-import "../css/AllHeros.scss";
+import "../css/AllHeroes.scss";
 
-async function getAllHeros() {
-  return await axios.get("http://localhost:8000/heros/get_all");
+async function getAllHeroes() {
+  return await axios.get("http://localhost:8000/heroes/get_all_available");
 }
 
-class AllHeros extends React.Component<{}, { heros: HeroClass[] }> {
+class AllHeroes extends React.Component<{}, { heroes: HeroClass[] }> {
   constructor(props: any) {
     super(props);
     this.state = {
-      heros: Array<HeroClass>(),
+      heroes: Array<HeroClass>(),
     };
   }
 
   componentDidMount() {
-    getAllHeros()
+    getAllHeroes()
       .then((res) => {
-        this.setState({ heros: res.data });
+        this.setState({ heroes: res.data });
       })
       .catch((err) => {
-        console.log("Error to get all heros");
+        console.log("Error to get all heroes");
         console.log(err);
       });
   }
@@ -30,9 +30,9 @@ class AllHeros extends React.Component<{}, { heros: HeroClass[] }> {
   render() {
     return (
       <div>
-        <h1>All Heros</h1>
+        <h1>All Heroes</h1>
         <div className="card-container">
-          {this.state.heros.map((hero) => (
+          {this.state.heroes.map((hero) => (
             <Hero
               id={hero.id}
               name={hero.name}
@@ -47,4 +47,4 @@ class AllHeros extends React.Component<{}, { heros: HeroClass[] }> {
   }
 }
 
-export default AllHeros;
+export default AllHeroes;

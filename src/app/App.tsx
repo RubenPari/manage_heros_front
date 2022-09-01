@@ -1,14 +1,14 @@
 import React from "react";
-import AllHeros from "../components/AllHeros";
 import Navbar from "../components/Navbar";
 import "../css/App.css";
+import AddHero from "../components/AddHero";
 
 const App = () => {
   return (
     <div className="App">
       <Navbar />
-      <h1>Welcome to manage heros application</h1>
-      <AllHeros />
+      <h1>Welcome to manage heroes application</h1>
+      <AddHero />
     </div>
   );
 };

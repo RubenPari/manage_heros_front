@@ -3,7 +3,7 @@ import axios from 'axios';
 import Hero from '../models/Hero';
 
 async function getAllHeroes() {
-    return await axios.get('http://localhost:8000/heros/get_all_available');
+    return await axios.get('http://localhost:8000/heroes/get_all_available');
 }
 
 class AddHero extends React.Component<{}, { heroes: Hero[] }> {
