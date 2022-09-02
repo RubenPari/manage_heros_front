@@ -3,7 +3,7 @@ import axios from 'axios';
 import Hero from '../models/Hero';
 
 
-async function getAllHeroes() {
+async function getAllHeroesAvailable() {
     return await axios.get('http://localhost:8000/heroes/get_all_available');
 }
 
@@ -19,7 +19,7 @@ class AddHero extends React.Component<{}, { heroes: Hero[], heroName: string, re
     }
 
     componentDidMount() {
-        getAllHeroes()
+        getAllHeroesAvailable()
             .then((res) => {
                 this.setState({heroes: res.data});
             })
