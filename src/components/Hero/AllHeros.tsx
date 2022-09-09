@@ -1,11 +1,11 @@
 import React from "react";
 import axios from "axios";
 import Hero from "./Hero";
-import HeroClass from "../models/Hero";
-import "../css/AllHeroes.scss";
+import HeroClass from "../../models/Hero";
+import "../../css/Hero/AllHeros.scss";
 
 async function getAllHeroes() {
-  return await axios.get("http://localhost:8000/heroes/get_all_available");
+  return await axios.get("http://localhost:8000/heroes/get_all");
 }
 
 class AllHeroes extends React.Component<{}, { heroes: HeroClass[] }> {

@@ -1,12 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import Hero from '../models/Hero';
+import Hero from '../../models/Hero';
 
-function getAllHeroes() {
-    return axios.get('http://localhost:8000/heroes/get_all');
+
+async function getAllHeroesAvailable() {
+    return await axios.get('http://localhost:8000/heroes/get_all_available');
 }
 
-class DeleteHero extends React.Component<{}, { heroes: Hero[], heroName: string, response: string }> {
+class AddHero extends React.Component<{}, { heroes: Hero[], heroName: string, response: string }> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -18,7 +19,7 @@ class DeleteHero extends React.Component<{}, { heroes: Hero[], heroName: string,
     }
 
     componentDidMount() {
-        getAllHeroes()
+        getAllHeroesAvailable()
             .then((res) => {
                 this.setState({heroes: res.data});
             })
@@ -32,12 +33,12 @@ class DeleteHero extends React.Component<{}, { heroes: Hero[], heroName: string,
         this.setState({heroName: event.target.value});
     }
 
-    deleteHero = () => {
-        axios.delete('http://localhost:8000/heroes/delete?name=' + this.state.heroName)
+    addHero = () => {
+        axios.post('http://localhost:8000/heroes/add?name=' + this.state.heroName)
             .then(() => {
-                this.setState({response: "Hero deleted"});
+                this.setState({response: "Hero added"});
             }).catch((err) => {
-                console.log('Error to delete hero');
+                console.log('Error to add hero');
                 console.log(err);
             }
         );
@@ -46,13 +47,13 @@ class DeleteHero extends React.Component<{}, { heroes: Hero[], heroName: string,
     render() {
         return (
             <div>
-                <h3>Select hero that you would delete</h3>
+                <h3>Select hero that you would add</h3>
                 <select name="dropdown" onChange={this.setNameHero}>
                     {this.state.heroes.map((hero) => {
                         return <option key={hero.id} value={hero.name}>{hero.name}</option>
                     })}
                 </select>
-                <button className="submit" onClick={this.deleteHero}>Send</button>
+                <button className="submit" onClick={this.addHero}>Send</button>
                 <h4>
                     {this.state.response}
                 </h4>
@@ -61,4 +62,4 @@ class DeleteHero extends React.Component<{}, { heroes: Hero[], heroName: string,
     }
 }
 
-export default DeleteHero;
+export default AddHero;
