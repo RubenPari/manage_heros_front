@@ -30,8 +30,7 @@ class DeleteHero extends React.Component<
         this.setState({ heroes: res.data });
       })
       .catch((err) => {
-        console.log("Error to get all heroes");
-        console.log(err);
+        console.log("Error to get all heroes" + err);
       });
   }
 

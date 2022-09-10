@@ -3,43 +3,44 @@ import axios from 'axios';
 import Hero from '../../models/Hero';
 
 
-async function getAllHeroesAvailable() {
+async function getAllAvailable() {
     return await axios.get('http://localhost:8000/heroes/get_all_available');
 }
 
-class AddHero extends React.Component<{}, { heroes: Hero[], heroName: string, response: string }> {
+async function add(name: string) {
+    return axios.post('http://localhost:8000/heroes/add?name=' + name);
+}
+
+class AddHero extends React.Component<{}, { heroes: Hero[], name: string, response: string }> {
     constructor(props: any) {
         super(props);
         this.state = {
             heroes: Array<Hero>(),
-            heroName: "",
+            name: "",
             response: "",
         }
-        this.setNameHero = this.setNameHero.bind(this);
+        this.setName = this.setName.bind(this);
     }
 
     componentDidMount() {
-        getAllHeroesAvailable()
+        getAllAvailable()
             .then((res) => {
                 this.setState({heroes: res.data});
             })
             .catch((err) => {
-                console.log('Error to get all heroes');
-                console.log(err);
+                console.log('Error to get all heroes' + err);
             });
     }
 
-    setNameHero(event: any) {
-        this.setState({heroName: event.target.value});
+    setName(event: any) {
+        this.setState({name: event.target.value});
     }
 
     addHero = () => {
-        axios.post('http://localhost:8000/heroes/add?name=' + this.state.heroName)
-            .then(() => {
-                this.setState({response: "Hero added"});
-            }).catch((err) => {
-                console.log('Error to add hero');
-                console.log(err);
+        add(this.state.name).then(() => {
+            this.setState({response: "Hero added"});
+        }).catch((err) => {
+                console.log('Error to add hero' + err);
             }
         );
     }
@@ -48,7 +49,7 @@ class AddHero extends React.Component<{}, { heroes: Hero[], heroName: string, re
         return (
             <div>
                 <h3>Select hero that you would add</h3>
-                <select name="dropdown" onChange={this.setNameHero}>
+                <select name="dropdown" onChange={this.setName}>
                     {this.state.heroes.map((hero) => {
                         return <option key={hero.id} value={hero.name}>{hero.name}</option>
                     })}
